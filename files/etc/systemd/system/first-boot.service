@@ -1,0 +1,17 @@
+[Unit]
+Description=Sets up the system
+DefaultDependencies=no
+Conflicts=shutdown.target
+After=systemd-remount-fs.service
+Before=systemd-sysusers.service sysinit.target shutdown.target
+ConditionPathIsReadWrite=/etc
+ConditionPathExists=/first-boot.sh
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+PassEnvironment=PUSER PUID PHOME PASSWORD
+ExecStart=/bin/bash /first-boot.sh
+
+[Install]
+WantedBy=sysinit.target
