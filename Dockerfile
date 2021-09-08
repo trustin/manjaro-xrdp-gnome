@@ -173,8 +173,10 @@ RUN pacman -S --noconfirm --needed \
   papirus-maia-icon-theme \
   xcursor-breeze
 
-# Enable AUR.
-RUN sed -i -e 's~#EnableAUR.*~EnableAUR~g' /etc/pamac.conf
+# Configure Pamac.
+RUN sed -i -e \
+  's~#\(\(RemoveUnrequiredDeps\|EnableAUR\|KeepBuiltPkgs\|CheckAURUpdates\|DownloadUpdates\).*\)~\1~g' \
+  /etc/pamac.conf
 
 # Remove the cruft.
 RUN rm -f /etc/locale.conf.pacnew /etc/locale.gen.pacnew
