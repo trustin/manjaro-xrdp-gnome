@@ -192,10 +192,8 @@ COPY files/ /
 
 # Install the AUR packages.
 RUN pacman -U --needed --noconfirm \
-  '/var/cache/private/pamac/ncurses5-compat-libs/ncurses5-compat-libs-6.2-1-x86_64.pkg.tar.zst' \
-  '/var/cache/private/pamac/xrdp/xrdp-0.9.16-3-x86_64.pkg.tar.zst' \
-  '/var/cache/private/pamac/xorgxrdp/xorgxrdp-0.2.16-2-x86_64.pkg.tar.zst'
-RUN rm -fr /var/cache/private/pamac/*
+  /packages/*.pkg.tar* && \
+  rm -fr /packages
 
 # Remove the generated XRDP RSA key because it will be generated at the first boot.
 RUN rm -f /etc/xrdp/rsakeys.ini
