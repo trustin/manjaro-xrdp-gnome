@@ -63,6 +63,7 @@ RUN pacman -S --noconfirm --needed \
   bind-tools \
   bandwhich \
   bat \
+  dash \
   docker \
   downgrade \
   dust \
