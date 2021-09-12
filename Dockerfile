@@ -124,7 +124,10 @@ RUN pacman -S --noconfirm --needed \
   dconf-editor \
   eog \
   evince \
+  file-roller \
   firefox \
+  gedit \
+  gedit-plugins \
   gnome-calculator \
   gnome-control-center \
   gnome-keyring \
