@@ -1,9 +1,13 @@
 # GNOME remote desktop Docker image powered by Manjaro and xrdp
 
-This repository provides the Docker image that runs a GNOME desktop on top of
-[Manjaro Linux](https://manjaro.org). The desktop is accessible via
+This repository provides the Docker image that runs a [GNOME](https://gnome.org/)
+desktop on top of [Manjaro Linux](https://manjaro.org). The desktop is accessible via
 [RDP (Remote Desktop Protocol)](https://en.wikipedia.org/wiki/Remote_Desktop_Protocol)
-clients such as [Remmina](https://remmina.org/) and [FreeRDP](https://www.freerdp.com).
+clients such as [Remmina](https://remmina.org/), [FreeRDP](https://www.freerdp.com),
+[Microsoft Remote Desktop](https://www.microsoft.com/en-us/p/microsoft-remote-desktop/9wzdncrfj3ps)
+([for macOS](https://itunes.apple.com/app/microsoft-remote-desktop/id1295203466)).
+
+Interested in LXQt? See [`manjaro-xrdp-lxqt`](https://github.com/trustin/manjaro-xrdp-lxqt).
 
 ## Step 1: Pull the image
 
@@ -29,7 +33,7 @@ docker create \
   --interactive \
   --privileged \
   --shm-size 2G \
-  --publish 3389:3389 \
+  --publish 23389:3389 \
   --publish 8022:22 \
   ghcr.io/trustin/manjaro-xrdp-gnome:latest
 ```
@@ -56,7 +60,7 @@ You should now be able to access your full-featured GNOME desktop using
 the RDP client of your choice. For example, using [Remmina](https://remmina.org):
 
 ```
-remmina -c rdp://127.0.0.1
+remmina -c rdp://127.0.0.1:23389
 ```
 
 ## Customizing and building the image
