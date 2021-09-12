@@ -72,6 +72,7 @@ RUN pacman -S --noconfirm --needed \
   fd \
   fzf \
   git \
+  glances \
   haveged \
   htop \
   httpie \
@@ -97,6 +98,9 @@ RUN pacman -S --noconfirm --needed \
   pigz \
   procs \
   python \
+  python-docker \
+  python-matplotlib \
+  python-netifaces \
   python-pip \
   python-setuptools \
   python2 \
