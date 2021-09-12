@@ -122,58 +122,49 @@ RUN pacman -S --noconfirm --needed \
 # Install the desktop environment packages.
 RUN pacman -S --noconfirm --needed \
   dconf-editor \
+  eog \
   evince \
-  feathernotes \
-  featherpad \
   firefox \
+  gnome-calculator \
+  gnome-control-center \
   gnome-keyring \
-  gnome-settings-daemon \
+  gnome-layout-switcher \
+  gnome-system-monitor \
+  gnome-terminal \
+  gnome-tweaks \
   gvfs-google \
   libappindicator-gtk2 \
   libappindicator-gtk3 \
-  lxqt \
-  manjaro-lxqt-config \
-  manjaro-lxqt-desktop-settings \
-  manjaro-lxqt-theme-arc-maia \
+  lighter-gnome \
+  manjaro-gnome-assets \
+  manjaro-hello \
   noto-fonts \
   noto-fonts-cjk \
   noto-fonts-emoji \
   pamac-gtk \
   poppler-data \
-  qgnomeplatform \
-  qps \
   seahorse \
-  speedcrunch \
-  ttf-fira-code \
-  ttf-fira-mono \
-  ttf-fira-sans \
   ttf-hack \
   wireshark-qt \
   wmctrl \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
   xdotool \
-  xfce4-terminal \
   xorg \
   zenity
 
-# Remove the unnecessary packages installed by meta-packages.
-RUN pacman -Runc --noconfirm \
-  kidletime \
-  lxqt-powermanagement \
-  qterminal \
-  qtermwidget
-
-# Install the themes.
+# Install input methods.
 RUN pacman -S --noconfirm --needed \
-  gnome-wallpapers \
-  gtk-engines \
-  gtk-engine-murrine \
-  matcha-gtk-theme \
-  kvantum-manjaro \
-  kvantum-theme-matchama \
-  papirus-maia-icon-theme \
-  xcursor-breeze
+  ibus-libpinyin \
+  ibus-anthy \
+  ibus-hangul \
+  ibus-unikey \
+  ibus-m17n \
+  manjaro-asian-input-support-ibus
+
+# Remove the unnecessary packages installed by meta-packages.
+#RUN pacman -Runc --noconfirm \
+#  kidletime
 
 # Configure Pamac.
 RUN sed -i -e \
@@ -218,13 +209,6 @@ RUN sed -i -e 's~^\(.*pam_systemd_home.*\)$~#\1~' /etc/pam.d/system-auth
 # Workaround for the colord authentication issue.
 # See: https://unix.stackexchange.com/a/581353
 RUN systemctl enable fix-colord.service
-
-# Use 'Sans' and 'Monospace' instead of Fira fonts.
-RUN find /etc/skel -type f -print | while read F; \
-  do \
-    sed -i -e 's~Fira Sans~Sans~g' "$F"; \
-    sed -i -e 's~Fira \(Code|Mono\)~Monospace~g' "$F"; \
-  done
 
 # Expose SSH and RDP ports.
 EXPOSE 22

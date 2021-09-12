@@ -3,4 +3,4 @@ set -Eeuo pipefail
 cd "$(dirname "$0")"
 
 ./build.sh "$@"
-docker push ghcr.io/trustin/manjaro-xrdp-lxqt:latest
+docker push ghcr.io/trustin/manjaro-xrdp-gnome:latest
