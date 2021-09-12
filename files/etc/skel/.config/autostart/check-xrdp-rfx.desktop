@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=check-xrdp-rfx.sh
+Exec=/usr/local/bin/check-xrdp-rfx.sh
+Terminal=false

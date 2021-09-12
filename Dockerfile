@@ -154,7 +154,8 @@ RUN pacman -S --noconfirm --needed \
   xdg-desktop-portal-gtk \
   xdotool \
   xfce4-terminal \
-  xorg
+  xorg \
+  zenity
 
 # Remove the unnecessary packages installed by meta-packages.
 RUN pacman -Runc --noconfirm \

@@ -2,9 +2,7 @@
 set -Eeuo pipefail
 
 self_destruct() {
-  rm -f \
-    "$HOME/.local/bin/first-login.sh" \
-    "$HOME/.config/autostart/first-login.desktop"
+  rm -f "$HOME/.config/autostart/first-login.desktop"
 }
 
 trap self_destruct EXIT

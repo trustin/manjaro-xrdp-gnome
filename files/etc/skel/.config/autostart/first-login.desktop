@@ -2,5 +2,5 @@
 Version=1.0
 Type=Application
 Name=first-login.sh
-Exec=first-login.sh
+Exec=/usr/local/bin/first-login.sh
 Terminal=false
