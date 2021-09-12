@@ -125,21 +125,11 @@ RUN pacman -S --noconfirm --needed \
 
 # Install the desktop environment packages.
 RUN pacman -S --noconfirm --needed \
-  dconf-editor \
-  eog \
-  evince \
-  file-roller \
   firefox \
-  gedit \
-  gedit-plugins \
-  gnome-calculator \
   gnome-control-center \
   gnome-keyring \
   gnome-layout-switcher \
-  gnome-system-monitor \
-  gnome-terminal \
   gnome-tweaks \
-  gvfs-google \
   libappindicator-gtk2 \
   libappindicator-gtk3 \
   lighter-gnome \
@@ -149,15 +139,28 @@ RUN pacman -S --noconfirm --needed \
   noto-fonts-cjk \
   noto-fonts-emoji \
   pamac-gtk \
-  poppler-data \
   seahorse \
   ttf-hack \
-  wireshark-qt \
-  wmctrl \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
+  xorg
+
+# Install the desktop environment packages (part 2).
+RUN pacman -S --noconfirm --needed \
+  dconf-editor \
+  eog \
+  evince \
+  file-roller \
+  gedit \
+  gedit-plugins \
+  gnome-calculator \
+  gnome-system-monitor \
+  gnome-terminal \
+  gvfs-google \
+  poppler-data \
+  wireshark-qt \
+  wmctrl \
   xdotool \
-  xorg \
   zenity
 
 # Install input methods.
