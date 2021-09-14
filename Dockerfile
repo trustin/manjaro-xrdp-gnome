@@ -213,6 +213,9 @@ RUN \
     mv /etc/pacman.d/mirrorlist.bak /etc/pacman.d/mirrorlist; \
   fi
 
+# Unlock gnome-keyring automatically for xrdp login.
+RUN mv /etc/pam.d/xrdp-sesman.patched /etc/pam.d/xrdp-sesman
+
 # Workaround for https://github.com/neutrinolabs/xrdp/issues/1684
 RUN sed -i -e 's~^\(.*pam_systemd_home.*\)$~#\1~' /etc/pam.d/system-auth
 
