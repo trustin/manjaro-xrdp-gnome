@@ -10,7 +10,7 @@ ConditionPathExists=/first-boot.sh
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-PassEnvironment=PUSER PUID PHOME PASSWORD
+PassEnvironment=PUSER PUID PHOME
 ExecStart=/bin/bash /first-boot.sh
 
 [Install]

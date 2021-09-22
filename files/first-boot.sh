@@ -23,11 +23,8 @@ gpasswd -a "$PUSER" wheel
 gpasswd -a "$PUSER" wireshark
 
 # Set user's password.
-if [[ -z "$PASSWORD" ]]; then
-  # Use the username as the password if not given.
-  PASSWORD="$PUSER"
-fi
-echo -e "$PASSWORD\n$PASSWORD" | passwd "$PUSER"
+# Use the username as the password.
+echo -e "$PUSER\n$PUSER" | passwd "$PUSER"
 
 # Switch to zsh.
 chsh -s /bin/zsh "$PUSER"

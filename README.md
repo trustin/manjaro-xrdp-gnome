@@ -28,7 +28,6 @@ docker create \
   --env "TZ=America/Los_Angeles" \
   --env "PUSER=user" \
   --env "PUID=1000" \
-  --env "PASSWORD=password" \
   --tty \
   --interactive \
   --privileged \
@@ -44,7 +43,6 @@ docker create \
 | :----: | --- | --- |
 | PUSER | john | The username of the desktop user (default: `user`) |
 | PUID | 1000 | The nummeric user ID of the desktop user (default: `1000`) |
-| PASSWORD | secret | The initial login password of the desktop user (default: same as `$PUSER`) |
 | TZ | Asia/Seoul | System timezone (default: `America/Los_Angeles`) |
 | LANG | en\_US.UTF-8 | System locale (default: `en_US.UTF-8`) |
 
@@ -62,6 +60,10 @@ the RDP client of your choice. For example, using [Remmina](https://remmina.org)
 ```
 remmina -c rdp://127.0.0.1:23389
 ```
+
+Note that your initial login password is same with your username, which you specified
+via the `PUSER` environment variable. It's highly recommended to change your password
+as soon as possible.
 
 ## Customizing and building the image
 

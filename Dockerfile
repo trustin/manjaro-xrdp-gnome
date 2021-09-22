@@ -9,8 +9,6 @@ ENV TZ=America/Los_Angeles
 ENV PATH="/usr/bin:${PATH}"
 ENV PUSER=user
 ENV PUID=1000
-ENV PGID=1000
-ENV PASSWORD=""
 
 # Configure the locale; enable only en_US.UTF-8 and the current locale.
 RUN sed -i -e 's~^\([^#]\)~#\1~' '/etc/locale.gen' && \
