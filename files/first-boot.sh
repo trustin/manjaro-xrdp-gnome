@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 self_destruct() {
-  rm -f '/first-boot.sh'
+  rm -f '/first-boot.sh' '/first-boot-local.sh'
   systemctl disable first-boot.service
 }
 
@@ -32,6 +32,11 @@ chsh -s /bin/zsh "$PUSER"
 # Allow first-login.sh to log to /var/log
 touch /var/log/first-login.log
 chown "$PUSER:users" /var/log/first-login.log
+
+if [[ -x /first-boot-local.sh ]]; then
+  echo 'Running first-boot-local.sh ..'
+  /first-boot-local.sh
+fi
 
 echo 'first-boot.sh finished successfully.'
 

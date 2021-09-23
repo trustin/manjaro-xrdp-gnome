@@ -53,7 +53,13 @@ dock-fixed=true
 dock-position='LEFT'
 show-apps-at-top=true
 show-mounts=false
+
 EOF
+
+if [[ -x '/usr/local/bin/first-login-local.sh' ]]; then
+  echo 'Running first-login-local.sh ..'
+  /usr/local/bin/first-login-local.sh
+fi
 
 echo 'first-login.sh finished successfully.'
 
