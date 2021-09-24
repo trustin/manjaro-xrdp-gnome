@@ -143,7 +143,8 @@ RUN pacman -S --noconfirm --needed \
   xdg-desktop-portal-gtk \
   xorg \
   xorg-twm \
-  xterm
+  xterm \
+  zenity
 
 # Install the desktop environment packages (part 2).
 RUN pacman -S --noconfirm --needed \
@@ -160,8 +161,7 @@ RUN pacman -S --noconfirm --needed \
   poppler-data \
   wireshark-qt \
   wmctrl \
-  xdotool \
-  zenity
+  xdotool
 
 # Install input methods.
 RUN pacman -S --noconfirm --needed \
