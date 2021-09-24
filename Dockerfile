@@ -141,7 +141,9 @@ RUN pacman -S --noconfirm --needed \
   ttf-hack \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
-  xorg
+  xorg \
+  xorg-twm \
+  xterm
 
 # Install the desktop environment packages (part 2).
 RUN pacman -S --noconfirm --needed \
