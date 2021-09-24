@@ -16,7 +16,7 @@ rm -f /etc/xrdp/rsakeys.ini
 xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
 
 # Create a user.
-export PHOME="/home/$PUSER"
+PHOME="/home/$PUSER"
 useradd -u "$PUID" -g users -d "$PHOME" -m -N "$PUSER"
 gpasswd -a "$PUSER" docker
 gpasswd -a "$PUSER" wheel
@@ -35,6 +35,9 @@ chown "$PUSER:users" /var/log/first-login.log
 
 if [[ -x /first-boot-local.sh ]]; then
   echo 'Running first-boot-local.sh ..'
+  export PUSER
+  export PUID
+  export PHOME
   /first-boot-local.sh
 fi
 
