@@ -9,6 +9,10 @@ trap self_destruct EXIT
 
 {
 
+# Wait a little bit until other apps and extensions finish
+# their initialization process to avoid some race conditions.
+sleep 3
+
 dconf load / <<EOF
 
 [org/gnome/desktop/calendar]
