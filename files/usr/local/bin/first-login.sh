@@ -9,9 +9,6 @@ trap self_destruct EXIT
 
 {
 
-# Wait a little bit so our customization is not reverted due to some race condition.
-sleep 3
-
 dconf load / <<EOF
 
 [org/gnome/desktop/calendar]

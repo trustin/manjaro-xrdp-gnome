@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # ~/.xinitrc
 #
@@ -40,4 +40,5 @@ fi
 # See: https://bbs.archlinux.org/viewtopic.php?id=224787
 dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
 
-exec dbus-launch --sh-syntax gnome-session
+# Start the GNOME session.
+exec gnome-session
