@@ -58,6 +58,12 @@ dock-position='LEFT'
 show-apps-at-top=true
 show-mounts=false
 
+[org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+bold-is-bright=true
+scrollback-lines=65536
+use-system-font=true
+use-theme-colors=false
+
 EOF
 
 if [[ -x '/usr/local/bin/first-login-local.sh' ]]; then
