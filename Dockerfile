@@ -89,6 +89,8 @@ RUN pacman -S --noconfirm --needed \
   manjaro-zsh-config \
   net-tools \
   nfs-utils \
+  nodejs-lts-fermium \
+  npm6 \
   openbsd-netcat \
   openssh \
   p7zip \
