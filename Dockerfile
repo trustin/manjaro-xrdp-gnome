@@ -53,7 +53,7 @@ RUN sed -i -e 's~^\(\(CheckSpace\|IgnorePkg\|IgnoreGroup\).*\)$~#\1~' /etc/pacma
 # Delete the 'builder' user from the base image.
 RUN userdel --force --remove builder
 
-# Install the packages independent from a desktop environment.
+# Install the common non-GUI packages.
 RUN pacman -S --noconfirm --needed \
   aws-cli \
   base-devel \
@@ -123,47 +123,39 @@ RUN pacman -S --noconfirm --needed \
   wget \
   zip
 
-# Install the desktop environment packages.
+# Install the fonts.
 RUN pacman -S --noconfirm --needed \
-  firefox \
-  gnome-control-center \
-  gnome-keyring \
-  gnome-layout-switcher \
-  gnome-tweaks \
-  libappindicator-gtk2 \
-  libappindicator-gtk3 \
-  lighter-gnome \
-  manjaro-gnome-assets \
-  manjaro-hello \
   noto-fonts \
   noto-fonts-cjk \
   noto-fonts-emoji \
+  ttf-fira-code \
+  ttf-fira-mono \
+  ttf-fira-sans \
+  ttf-hack
+
+# Install the common GUI packages.
+RUN pacman -S --noconfirm --needed \
+  dconf-editor \
+  evince \
+  firefox \
+  gnome-keyring \
+  gnome-settings-daemon \
+  gvfs-google \
+  libappindicator-gtk2 \
+  libappindicator-gtk3 \
   pamac-gtk \
+  poppler-data \
+  qgnomeplatform \
   seahorse \
-  ttf-hack \
+  wireshark-qt \
+  wmctrl \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
+  xdotool \
   xorg \
   xorg-twm \
   xterm \
   zenity
-
-# Install the desktop environment packages (part 2).
-RUN pacman -S --noconfirm --needed \
-  dconf-editor \
-  eog \
-  evince \
-  file-roller \
-  gedit \
-  gedit-plugins \
-  gnome-calculator \
-  gnome-system-monitor \
-  gnome-terminal \
-  gvfs-google \
-  poppler-data \
-  wireshark-qt \
-  wmctrl \
-  xdotool
 
 # Install input methods.
 RUN pacman -S --noconfirm --needed \
@@ -174,9 +166,21 @@ RUN pacman -S --noconfirm --needed \
   ibus-m17n \
   manjaro-asian-input-support-ibus
 
-# Remove the unnecessary packages installed by meta-packages.
-#RUN pacman -Runc --noconfirm \
-#  kidletime
+# Install the desktop environment packages.
+RUN pacman -S --noconfirm --needed \
+  eog \
+  file-roller \
+  gedit \
+  gedit-plugins \
+  gnome-calculator \
+  gnome-control-center \
+  gnome-layout-switcher \
+  gnome-system-monitor \
+  gnome-terminal \
+  gnome-tweaks \
+  lighter-gnome \
+  manjaro-gnome-assets \
+  manjaro-hello
 
 # Configure Pamac.
 RUN sed -i -e \
