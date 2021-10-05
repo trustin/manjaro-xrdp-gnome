@@ -17,7 +17,7 @@ xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
 
 # Create a user.
 PHOME="/home/$PUSER"
-useradd -u "$PUID" -g users -d "$PHOME" -m -N "$PUSER"
+useradd --badname -u "$PUID" -g users -d "$PHOME" -m -N "$PUSER"
 gpasswd -a "$PUSER" docker
 gpasswd -a "$PUSER" wheel
 gpasswd -a "$PUSER" wireshark
