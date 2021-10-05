@@ -1,6 +1,4 @@
-FROM manjarolinux/base:latest as base
-FROM scratch AS release
-COPY --from=base / /
+FROM manjarolinux/base:latest
 
 ARG MIRROR_URL
 
