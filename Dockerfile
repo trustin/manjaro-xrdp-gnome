@@ -8,6 +8,9 @@ ENV PATH="/usr/bin:${PATH}"
 ENV PUSER=user
 ENV PUID=1000
 
+# Remove unnecessary files from the base image.
+RUN rm -f /.BUILDINFO /.INSTALL /.PKGINFO /.MTREE
+
 # Configure the locale; enable only en_US.UTF-8 and the current locale.
 RUN sed -i -e 's~^\([^#]\)~#\1~' '/etc/locale.gen' && \
   echo -e '\nen_US.UTF-8 UTF-8' >> '/etc/locale.gen' && \
@@ -47,9 +50,6 @@ RUN sed -i -e 's~^\(\(CheckSpace\|IgnorePkg\|IgnoreGroup\).*\)$~#\1~' /etc/pacma
   pacman -Syyu --noconfirm --needed && \
   mv -f /etc/pacman.conf.pacnew /etc/pacman.conf && \
   sed -i -e 's~^\(CheckSpace.*\)$~#\1~' /etc/pacman.conf
-
-# Delete the 'builder' user from the base image.
-RUN userdel --force --remove builder
 
 # Install the common non-GUI packages.
 RUN pacman -S --noconfirm --needed \
@@ -197,35 +197,51 @@ RUN systemctl disable systemd-modules-load.service
 # Copy the configuration files and scripts.
 COPY files/ /
 
-# Install the AUR packages.
-RUN pacman -U --needed --noconfirm \
-  /packages/*.pkg.tar* && \
-  rm -fr /packages
-
-# Remove the generated XRDP RSA key because it will be generated at the first boot.
-RUN rm -f /etc/xrdp/rsakeys.ini
-
-# Enable/disable the services from the AUR packages.
-RUN systemctl enable xrdp.service
-
 # Enable the first boot time script.
 RUN systemctl enable first-boot.service
+
+# Workaround for the colord authentication issue.
+# See: https://unix.stackexchange.com/a/581353
+RUN systemctl enable fix-colord.service
+
+# Install ncurses5-compat-libs from AUR.
+RUN \
+  cd /tmp && \
+  sudo -u builder gpg --recv-keys C52048C0C0748FEE227D47A2702353E0F7E48EDB && \
+  sudo -u builder git clone https://aur.archlinux.org/ncurses5-compat-libs.git && \
+  cd ncurses5-compat-libs && \
+  sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/ncurses5-compat-libs/*.pkg.tar* && \
+  rm -fr /tmp/ncurses5-compat-libs
+
+# Install xrdp and xorgxrdp from AUR.
+# - Remove the generated XRDP RSA key because it will be generated at the first boot.
+# - Unlock gnome-keyring automatically for xrdp login.
+# - Workaround for https://github.com/neutrinolabs/xrdp/issues/1684
+RUN \
+  pacman -S --noconfirm --needed \
+    tigervnc libxrandr fuse libfdk-aac ffmpeg nasm xorg-server-devel && \
+  cd /tmp && \
+  sudo -u builder gpg --recv-keys 61ECEABBF2BB40E3A35DF30A9F72CDBC01BF10EB && \
+  sudo -u builder git clone https://aur.archlinux.org/xrdp.git && \
+  sudo -u builder git clone https://aur.archlinux.org/xorgxrdp.git && \
+  cd /tmp/xrdp && sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/xrdp/*.pkg.tar* && \
+  cd /tmp/xorgxrdp && sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/xorgxrdp/*.pkg.tar* && \
+  rm -fr /tmp/xrdp /tmp/xorgxrdp /etc/xrdp/rsakeys.ini && \
+  mv /etc/pam.d/xrdp-sesman.patched /etc/pam.d/xrdp-sesman && \
+  sed -i -e 's~^\(.*pam_systemd_home.*\)$~#\1~' /etc/pam.d/system-auth && \
+  systemctl enable xrdp.service
+
+# Delete the 'builder' user from the base image.
+RUN userdel --force --remove builder
 
 # Switch to the default mirrors since we finished downloading packages.
 RUN \
   if [[ -n "${MIRROR_URL}" ]]; then \
     mv /etc/pacman.d/mirrorlist.bak /etc/pacman.d/mirrorlist; \
   fi
-
-# Unlock gnome-keyring automatically for xrdp login.
-RUN mv /etc/pam.d/xrdp-sesman.patched /etc/pam.d/xrdp-sesman
-
-# Workaround for https://github.com/neutrinolabs/xrdp/issues/1684
-RUN sed -i -e 's~^\(.*pam_systemd_home.*\)$~#\1~' /etc/pam.d/system-auth
-
-# Workaround for the colord authentication issue.
-# See: https://unix.stackexchange.com/a/581353
-RUN systemctl enable fix-colord.service
 
 # Expose SSH and RDP ports.
 EXPOSE 22
