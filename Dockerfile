@@ -166,6 +166,7 @@ RUN pacman -S --noconfirm --needed \
 
 # Install the desktop environment packages.
 RUN pacman -S --noconfirm --needed \
+  baobab \
   eog \
   file-roller \
   gedit \
