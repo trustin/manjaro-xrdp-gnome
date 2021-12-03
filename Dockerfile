@@ -53,10 +53,13 @@ RUN sed -i -e 's~^\(\(CheckSpace\|IgnorePkg\|IgnoreGroup\).*\)$~#\1~' /etc/pacma
 
 # Install the common non-GUI packages.
 RUN pacman -S --noconfirm --needed \
+  autoconf \
+  automake \
   aws-cli \
   base-devel \
   bash-completion \
-  bind-tools \
+  bind \
+  bison \
   bandwhich \
   bat \
   dash \
@@ -64,8 +67,10 @@ RUN pacman -S --noconfirm --needed \
   downgrade \
   dust \
   exa \
+  fakeroot \
   fasd \
   fd \
+  flex \
   fzf \
   git \
   glances \
@@ -77,7 +82,9 @@ RUN pacman -S --noconfirm --needed \
   iproute2 \
   iputils \
   jdk11-openjdk \
+  jq \
   logrotate \
+  lrzip \
   man-db \
   manjaro-aur-support \
   manjaro-base-skel \
@@ -90,12 +97,19 @@ RUN pacman -S --noconfirm --needed \
   nodejs-lts-fermium \
   npm6 \
   openbsd-netcat \
+  openresolv \
   openssh \
   p7zip \
   pamac-cli \
+  perf \
   pigz \
+  pkgconf \
+  procps-ng \
   procs \
+  protobuf \
+  psmisc \
   python \
+  python-cchardet \
   python-docker \
   python-matplotlib \
   python-netifaces \
@@ -112,13 +126,17 @@ RUN pacman -S --noconfirm --needed \
   sysstat \
   systemd-sysvcompat \
   tcpdump \
+  thrift \
   tmux \
   traceroute \
   trash-cli \
   tree \
+  unace \
+  unrar \
   unzip \
   vim \
   wget \
+  xz \
   zip
 
 # Install the fonts.
@@ -141,14 +159,19 @@ RUN pacman -S --noconfirm --needed \
   gvfs-google \
   libappindicator-gtk2 \
   libappindicator-gtk3 \
+  manjaro-application-utility \
   pamac-gtk \
   poppler-data \
   qgnomeplatform \
   seahorse \
   wireshark-qt \
   wmctrl \
+  xapp \
   xdg-desktop-portal \
   xdg-desktop-portal-gtk \
+  xdg-user-dirs \
+  xdg-user-dirs-gtk \
+  xdg-utils \
   xdotool \
   xorg \
   xorg-twm \
@@ -179,7 +202,12 @@ RUN pacman -S --noconfirm --needed \
   gnome-tweaks \
   lighter-gnome \
   manjaro-gnome-assets \
-  manjaro-hello
+  manjaro-hello \
+  nautilus-admin \
+  nautilus-empty-file \
+  pamac-gnome-integration \
+  polkit-gnome \
+  xdg-desktop-portal-gnome
 
 # Configure Pamac.
 RUN sed -i -e \
