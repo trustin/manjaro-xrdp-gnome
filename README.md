@@ -7,7 +7,10 @@ clients such as [Remmina](https://remmina.org/), [FreeRDP](https://www.freerdp.c
 [Microsoft Remote Desktop](https://www.microsoft.com/en-us/p/microsoft-remote-desktop/9wzdncrfj3ps)
 ([for macOS](https://itunes.apple.com/app/microsoft-remote-desktop/id1295203466)).
 
-Interested in LXQt? See [`manjaro-xrdp-lxqt`](https://github.com/trustin/manjaro-xrdp-lxqt).
+Interested in other desktop environments? See:
+
+- LXQt - [`manjaro-xrdp-lxqt`](https://github.com/trustin/manjaro-xrdp-lxqt)
+- XFCE - [`manjaro-xrdp-xfce`](https://github.com/trustin/manjaro-xrdp-xfce)
 
 ## Step 1: Pull the image
 
