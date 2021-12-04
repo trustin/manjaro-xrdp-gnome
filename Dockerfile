@@ -183,6 +183,7 @@ RUN pacman -S --noconfirm --needed \
   gnome-wallpapers \
   gtk-engines \
   gtk-engine-murrine \
+  illyria-wallpaper \
   matcha-gtk-theme \
   kvantum-manjaro \
   kvantum-theme-matchama \
