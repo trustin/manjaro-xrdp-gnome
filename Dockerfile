@@ -178,6 +178,17 @@ RUN pacman -S --noconfirm --needed \
   xterm \
   zenity
 
+# Install the common themes.
+RUN pacman -S --noconfirm --needed \
+  gnome-wallpapers \
+  gtk-engines \
+  gtk-engine-murrine \
+  matcha-gtk-theme \
+  kvantum-manjaro \
+  kvantum-theme-matchama \
+  papirus-maia-icon-theme \
+  xcursor-breeze
+
 # Install input methods.
 RUN pacman -S --noconfirm --needed \
   fcitx5-chinese-addons \
