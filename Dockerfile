@@ -290,6 +290,9 @@ RUN \
   rm -fr /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73 && \
   mv /etc/pam.d/xrdp-sesman.patched /etc/pam.d/xrdp-sesman
 
+# Disable all xrdp session types but Xorg.
+RUN mv /etc/xrdp/xrdp.ini.patched /etc/xrdp/xrdp.ini
+
 # Delete the 'builder' user from the base image.
 RUN userdel --force --remove builder
 
