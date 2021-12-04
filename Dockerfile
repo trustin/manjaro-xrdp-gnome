@@ -180,12 +180,13 @@ RUN pacman -S --noconfirm --needed \
 
 # Install input methods.
 RUN pacman -S --noconfirm --needed \
-  ibus-libpinyin \
-  ibus-anthy \
-  ibus-hangul \
-  ibus-unikey \
-  ibus-m17n \
-  manjaro-asian-input-support-ibus
+  fcitx5-chinese-addons \
+  fcitx5-rime \
+  fcitx5-anthy \
+  fcitx5-hangul \
+  fcitx5-unikey \
+  fcitx5-m17n \
+  manjaro-asian-input-support-fcitx5
 
 # Install the desktop environment packages.
 RUN pacman -S --noconfirm --needed \
@@ -211,7 +212,7 @@ RUN pacman -S --noconfirm --needed \
 
 # Configure Pamac.
 RUN sed -i -e \
-  's~#\(\(RemoveUnrequiredDeps\|EnableAUR\|KeepBuiltPkgs\|CheckAURUpdates\|DownloadUpdates\).*\)~\1~g' \
+  's~#\(\(RemoveUnrequiredDeps\|SimpleInstall\|EnableAUR\|KeepBuiltPkgs\|CheckAURUpdates\|DownloadUpdates\).*\)~\1~g' \
   /etc/pamac.conf
 
 # Remove the cruft.
@@ -219,9 +220,13 @@ RUN rm -f /etc/locale.conf.pacnew /etc/locale.gen.pacnew
 RUN pacman -Scc --noconfirm
 
 # Enable/disable the services.
-RUN systemctl enable haveged.service
-RUN systemctl enable sshd.service
-RUN systemctl disable systemd-modules-load.service
+RUN \
+  systemctl enable haveged.service && \
+  systemctl enable sshd.service && \
+  systemctl disable bluetooth.service && \
+  systemctl disable systemd-modules-load.service && \
+  systemctl disable systemd-udevd.service && \
+  systemctl disable upower.service
 
 # Copy the configuration files and scripts.
 COPY files/ /
@@ -259,9 +264,19 @@ RUN \
   cd /tmp/xorgxrdp && sudo -u builder makepkg --noconfirm && \
   pacman -U --noconfirm --needed /tmp/xorgxrdp/*.pkg.tar* && \
   rm -fr /tmp/xrdp /tmp/xorgxrdp /etc/xrdp/rsakeys.ini && \
-  mv /etc/pam.d/xrdp-sesman.patched /etc/pam.d/xrdp-sesman && \
-  sed -i -e 's~^\(.*pam_systemd_home.*\)$~#\1~' /etc/pam.d/system-auth && \
   systemctl enable xrdp.service
+
+# Install the workaround for:
+# - https://github.com/neutrinolabs/xrdp/issues/1684
+# - GNOME Keyring asks for password at login.
+RUN \
+  cd /tmp && \
+  wget 'https://github.com/matt335672/pam_close_systemd_system_dbus/archive/f8e6a9ac7bdbae7a78f09845da4e634b26082a73.zip' && \
+  unzip f8e6a9ac7bdbae7a78f09845da4e634b26082a73.zip && \
+  cd /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73 && \
+  make install && \
+  rm -fr /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73 && \
+  mv /etc/pam.d/xrdp-sesman.patched /etc/pam.d/xrdp-sesman
 
 # Delete the 'builder' user from the base image.
 RUN userdel --force --remove builder

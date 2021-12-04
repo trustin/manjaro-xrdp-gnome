@@ -1,7 +1,11 @@
 #%PAM-1.0
+
 auth        include     system-remote-login
 -auth       optional    pam_gnome_keyring.so
 account     include     system-remote-login
 password    include     system-remote-login
+-password   optional    pam_gnome_keyring.so use_authtok
+session     optional    pam_close_systemd_system_dbus.so
+session     optional    pam_keyinit.so force revoke
 session     include     system-remote-login
 -session    optional    pam_gnome_keyring.so auto_start
