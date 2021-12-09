@@ -63,6 +63,7 @@ RUN pacman -S --noconfirm --needed \
   bandwhich \
   bat \
   dash \
+  dmidecode \
   docker \
   downgrade \
   dust \
