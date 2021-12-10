@@ -181,6 +181,7 @@ RUN pacman -S --noconfirm --needed \
 
 # Install the common themes.
 RUN pacman -S --noconfirm --needed \
+  gnome-themes-extra \
   gnome-wallpapers \
   gtk-engines \
   gtk-engine-murrine \
