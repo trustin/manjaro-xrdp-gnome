@@ -62,6 +62,8 @@ RUN pacman -S --noconfirm --needed \
   bison \
   bandwhich \
   bat \
+  bpf \
+  bpftrace \
   dash \
   dmidecode \
   docker \
@@ -86,6 +88,7 @@ RUN pacman -S --noconfirm --needed \
   jq \
   logrotate \
   lrzip \
+  lsof \
   man-db \
   manjaro-aur-support \
   manjaro-base-skel \
@@ -124,6 +127,7 @@ RUN pacman -S --noconfirm --needed \
   rsync \
   sd \
   squashfs-tools \
+  strace \
   sysstat \
   systemd-sysvcompat \
   tcpdump \
