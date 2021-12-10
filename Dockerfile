@@ -239,13 +239,36 @@ RUN pacman -Scc --noconfirm
 
 # Enable/disable the services.
 RUN \
-  systemctl enable haveged.service && \
-  systemctl enable sshd.service && \
-  systemctl mask bluetooth.service && \
-  systemctl mask systemd-firstboot.service && \
-  systemctl mask systemd-modules-load.service && \
-  systemctl mask systemd-udevd.service && \
-  systemctl mask upower.service
+  systemctl enable \
+    haveged.service \
+    sshd.service && \
+  systemctl mask \
+    bluetooth.service \
+    dm-event.service \
+    dm-event.socket \
+    initrd-udevadm-cleanup-db.service \
+    power-profiles-daemon.service \
+    systemd-firstboot.service \
+    systemd-modules-load.service \
+    systemd-networkd.service \
+    systemd-networkd.socket \
+    systemd-networkd-wait-online.service \
+    systemd-udev-settle.service \
+    systemd-udev-trigger.service \
+    systemd-udevd.service \
+    systemd-udevd-control.socket \
+    systemd-udevd-kernel.socket \
+    udisks2.service \
+    upower.service \
+    usb-gadget.target \
+    usbmuxd.service && \
+  systemctl mask --global \
+    obex.service \
+    pipewire.service \
+    pipewire.socket \
+    pipewire-media-session.service \
+    pipewire-pulse.service \
+    pipewire-pulse.socket
 
 # Copy the configuration files and scripts.
 COPY files/ /
