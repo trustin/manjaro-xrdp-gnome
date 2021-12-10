@@ -236,10 +236,11 @@ RUN pacman -Scc --noconfirm
 RUN \
   systemctl enable haveged.service && \
   systemctl enable sshd.service && \
-  systemctl disable bluetooth.service && \
-  systemctl disable systemd-modules-load.service && \
-  systemctl disable systemd-udevd.service && \
-  systemctl disable upower.service
+  systemctl mask bluetooth.service && \
+  systemctl mask systemd-firstboot.service && \
+  systemctl mask systemd-modules-load.service && \
+  systemctl mask systemd-udevd.service && \
+  systemctl mask upower.service
 
 # Copy the configuration files and scripts.
 COPY files/ /
