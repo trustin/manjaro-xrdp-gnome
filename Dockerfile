@@ -99,7 +99,6 @@ RUN pacman -S --noconfirm --needed \
   net-tools \
   nfs-utils \
   nodejs-lts-fermium \
-  npm6 \
   openbsd-netcat \
   openresolv \
   openssh \
@@ -120,7 +119,6 @@ RUN pacman -S --noconfirm --needed \
   python-pip \
   python-setuptools \
   python2 \
-  python2-pip \
   python2-setuptools \
   rclone \
   ripgrep \
@@ -143,6 +141,12 @@ RUN pacman -S --noconfirm --needed \
   wget \
   xz \
   zip
+
+# Copy the pre-built packages.
+COPY packages/ /packages/
+
+# Install the pre-built packages.
+RUN pacman -U --noconfirm --needed /packages/*/*.tar.* && rm -fr /packages
 
 # Install the fonts.
 RUN pacman -S --noconfirm --needed \
