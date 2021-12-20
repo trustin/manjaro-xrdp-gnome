@@ -203,11 +203,11 @@ RUN pacman -S --noconfirm --needed \
 # Install input methods.
 RUN pacman -S --noconfirm --needed \
   fcitx5-chinese-addons \
-  fcitx5-rime \
-  fcitx5-anthy \
   fcitx5-hangul \
-  fcitx5-unikey \
   fcitx5-m17n \
+  fcitx5-mozc \
+  fcitx5-rime \
+  fcitx5-unikey \
   manjaro-asian-input-support-fcitx5
 
 # Install the desktop environment packages.
