@@ -213,6 +213,7 @@ RUN pacman -S --noconfirm --needed \
 # Install the desktop environment packages.
 RUN pacman -S --noconfirm --needed \
   baobab \
+  disable-tracker \
   eog \
   file-roller \
   gedit \
