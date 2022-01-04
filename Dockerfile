@@ -77,7 +77,6 @@ RUN pacman -S --noconfirm --needed \
   fzf \
   git \
   glances \
-  haveged \
   htop \
   httpie \
   iftop \
@@ -245,7 +244,6 @@ RUN pacman -Scc --noconfirm
 # Enable/disable the services.
 RUN \
   systemctl enable \
-    haveged.service \
     sshd.service && \
   systemctl mask \
     bluetooth.service \
