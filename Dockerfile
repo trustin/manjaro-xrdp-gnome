@@ -249,13 +249,19 @@ RUN \
     bluetooth.service \
     dm-event.service \
     dm-event.socket \
+    geoclue.service \
     initrd-udevadm-cleanup-db.service \
+    lvm2-lvmpolld.socket \
+    lvm2-monitor.service \
     power-profiles-daemon.service \
+    systemd-boot-update.service \
     systemd-firstboot.service \
     systemd-modules-load.service \
+    systemd-network-generator.service \
     systemd-networkd.service \
     systemd-networkd.socket \
     systemd-networkd-wait-online.service \
+    systemd-remount-fs.service \
     systemd-udev-settle.service \
     systemd-udev-trigger.service \
     systemd-udevd.service \
