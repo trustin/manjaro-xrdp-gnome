@@ -297,6 +297,7 @@ RUN pacman -S --noconfirm --needed \
   nautilus-empty-file \
   pamac-gnome-integration \
   polkit-gnome \
+  terminator \
   xdg-desktop-portal-gnome && \
 pacman -Scc --noconfirm
 
