@@ -64,6 +64,8 @@ RUN pacman -S --noconfirm --needed \
   bat \
   bpf \
   bpftrace \
+  clang \
+  cmake \
   dash \
   dmidecode \
   docker \
@@ -75,6 +77,7 @@ RUN pacman -S --noconfirm --needed \
   fd \
   flex \
   fzf \
+  gdb \
   git \
   glances \
   htop \
@@ -95,6 +98,8 @@ RUN pacman -S --noconfirm --needed \
   manjaro-hotfixes \
   manjaro-pipewire \
   manjaro-zsh-config \
+  meson \
+  mpdecimal \
   net-tools \
   nfs-utils \
   nodejs-lts-fermium \
@@ -129,6 +134,7 @@ RUN pacman -S --noconfirm --needed \
   systemd-sysvcompat \
   tcpdump \
   thrift \
+  tk \
   tmux \
   traceroute \
   trash-cli \
@@ -146,6 +152,27 @@ COPY packages/ /packages/
 
 # Install the pre-built packages.
 RUN pacman -U --noconfirm --needed /packages/*/*.tar.* && rm -fr /packages
+
+# Install ncurses5-compat-libs from AUR.
+RUN \
+  cd /tmp && \
+  sudo -u builder gpg --recv-keys C52048C0C0748FEE227D47A2702353E0F7E48EDB && \
+  sudo -u builder git clone https://aur.archlinux.org/ncurses5-compat-libs.git && \
+  cd ncurses5-compat-libs && \
+  sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/ncurses5-compat-libs/*.pkg.tar* && \
+  rm -fr /tmp/ncurses5-compat-libs
+
+# Install python38 and python39 from AUR.
+RUN \
+  cd /tmp && \
+  sudo -u builder gpg --recv-keys B26995E310250568 && \
+  sudo -u builder git clone https://aur.archlinux.org/python38.git && \
+  sudo -u builder git clone https://aur.archlinux.org/python39.git && \
+  cd /tmp/python38 && sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/python38/*.pkg.tar* && \
+  cd /tmp/python39 && sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/python39/*.pkg.tar*
 
 # Install the fonts.
 RUN pacman -S --noconfirm --needed \
@@ -209,6 +236,39 @@ RUN pacman -S --noconfirm --needed \
   fcitx5-unikey \
   manjaro-asian-input-support-fcitx5
 
+# Install xrdp and xorgxrdp from AUR.
+# - Remove the generated XRDP RSA key because it will be generated at the first boot.
+# - Unlock gnome-keyring automatically for xrdp login.
+RUN \
+  pacman -S --noconfirm --needed \
+    tigervnc libxrandr fuse libfdk-aac ffmpeg nasm xorg-server-devel && \
+  cd /tmp && \
+  sudo -u builder gpg --recv-keys 61ECEABBF2BB40E3A35DF30A9F72CDBC01BF10EB && \
+  sudo -u builder git clone https://aur.archlinux.org/xrdp.git && \
+  sudo -u builder git clone https://aur.archlinux.org/xorgxrdp.git && \
+  cd /tmp/xrdp && sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/xrdp/*.pkg.tar* && \
+  cd /tmp/xorgxrdp && sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/xorgxrdp/*.pkg.tar* && \
+  rm -fr /tmp/xrdp /tmp/xorgxrdp /etc/xrdp/rsakeys.ini && \
+  systemctl enable xrdp.service
+
+# Install the workaround for:
+# - https://github.com/neutrinolabs/xrdp/issues/1684
+# - GNOME Keyring asks for password at login.
+RUN \
+  cd /tmp && \
+  wget 'https://github.com/matt335672/pam_close_systemd_system_dbus/archive/f8e6a9ac7bdbae7a78f09845da4e634b26082a73.zip' && \
+  unzip f8e6a9ac7bdbae7a78f09845da4e634b26082a73.zip && \
+  cd /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73 && \
+  make install && \
+  rm -fr /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73
+
+# Configure Pamac.
+RUN sed -i -e \
+  's~#\(\(RemoveUnrequiredDeps\|SimpleInstall\|EnableAUR\|KeepBuiltPkgs\|CheckAURUpdates\|DownloadUpdates\).*\)~\1~g' \
+  /etc/pamac.conf
+
 # Install the desktop environment packages.
 RUN pacman -S --noconfirm --needed \
   baobab \
@@ -231,11 +291,6 @@ RUN pacman -S --noconfirm --needed \
   pamac-gnome-integration \
   polkit-gnome \
   xdg-desktop-portal-gnome
-
-# Configure Pamac.
-RUN sed -i -e \
-  's~#\(\(RemoveUnrequiredDeps\|SimpleInstall\|EnableAUR\|KeepBuiltPkgs\|CheckAURUpdates\|DownloadUpdates\).*\)~\1~g' \
-  /etc/pamac.conf
 
 # Remove the cruft.
 RUN rm -f /etc/locale.conf.pacnew /etc/locale.gen.pacnew
@@ -288,49 +343,6 @@ RUN systemctl enable first-boot.service
 # Workaround for the colord authentication issue.
 # See: https://unix.stackexchange.com/a/581353
 RUN systemctl enable fix-colord.service
-
-# Install ncurses5-compat-libs from AUR.
-RUN \
-  cd /tmp && \
-  sudo -u builder gpg --recv-keys C52048C0C0748FEE227D47A2702353E0F7E48EDB && \
-  sudo -u builder git clone https://aur.archlinux.org/ncurses5-compat-libs.git && \
-  cd ncurses5-compat-libs && \
-  sudo -u builder makepkg --noconfirm && \
-  pacman -U --noconfirm --needed /tmp/ncurses5-compat-libs/*.pkg.tar* && \
-  rm -fr /tmp/ncurses5-compat-libs
-
-# Install xrdp and xorgxrdp from AUR.
-# - Remove the generated XRDP RSA key because it will be generated at the first boot.
-# - Unlock gnome-keyring automatically for xrdp login.
-# - Workaround for https://github.com/neutrinolabs/xrdp/issues/1684
-RUN \
-  pacman -S --noconfirm --needed \
-    tigervnc libxrandr fuse libfdk-aac ffmpeg nasm xorg-server-devel && \
-  cd /tmp && \
-  sudo -u builder gpg --recv-keys 61ECEABBF2BB40E3A35DF30A9F72CDBC01BF10EB && \
-  sudo -u builder git clone https://aur.archlinux.org/xrdp.git && \
-  sudo -u builder git clone https://aur.archlinux.org/xorgxrdp.git && \
-  cd /tmp/xrdp && sudo -u builder makepkg --noconfirm && \
-  pacman -U --noconfirm --needed /tmp/xrdp/*.pkg.tar* && \
-  cd /tmp/xorgxrdp && sudo -u builder makepkg --noconfirm && \
-  pacman -U --noconfirm --needed /tmp/xorgxrdp/*.pkg.tar* && \
-  rm -fr /tmp/xrdp /tmp/xorgxrdp /etc/xrdp/rsakeys.ini && \
-  systemctl enable xrdp.service
-
-# Install the workaround for:
-# - https://github.com/neutrinolabs/xrdp/issues/1684
-# - GNOME Keyring asks for password at login.
-RUN \
-  cd /tmp && \
-  wget 'https://github.com/matt335672/pam_close_systemd_system_dbus/archive/f8e6a9ac7bdbae7a78f09845da4e634b26082a73.zip' && \
-  unzip f8e6a9ac7bdbae7a78f09845da4e634b26082a73.zip && \
-  cd /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73 && \
-  make install && \
-  rm -fr /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73 && \
-  mv /etc/pam.d/xrdp-sesman.patched /etc/pam.d/xrdp-sesman
-
-# Disable all xrdp session types but Xorg.
-RUN mv /etc/xrdp/xrdp.ini.patched /etc/xrdp/xrdp.ini
 
 # Delete the 'builder' user from the base image.
 RUN userdel --force --remove builder
