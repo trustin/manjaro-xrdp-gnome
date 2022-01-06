@@ -43,13 +43,15 @@ RUN pacman -S --noconfirm --needed \
   manjaro-release \
   manjaro-system \
   pacman \
-  sudo
+  sudo && \
+pacman -Scc --noconfirm
 
 # Make sure everything is up-to-date.
 RUN sed -i -e 's~^\(\(CheckSpace\|IgnorePkg\|IgnoreGroup\).*\)$~#\1~' /etc/pacman.conf && \
   pacman -Syyu --noconfirm --needed && \
   mv -f /etc/pacman.conf.pacnew /etc/pacman.conf && \
-  sed -i -e 's~^\(CheckSpace.*\)$~#\1~' /etc/pacman.conf
+  sed -i -e 's~^\(CheckSpace.*\)$~#\1~' /etc/pacman.conf && \
+  pacman -Scc --noconfirm
 
 # Install the common non-GUI packages.
 RUN pacman -S --noconfirm --needed \
@@ -145,7 +147,8 @@ RUN pacman -S --noconfirm --needed \
   vim \
   wget \
   xz \
-  zip
+  zip && \
+pacman -Scc --noconfirm
 
 # Copy the pre-built packages.
 COPY packages/ /packages/
@@ -182,7 +185,8 @@ RUN pacman -S --noconfirm --needed \
   ttf-fira-code \
   ttf-fira-mono \
   ttf-fira-sans \
-  ttf-hack
+  ttf-hack && \
+pacman -Scc --noconfirm
 
 # Install the common GUI packages.
 RUN pacman -S --noconfirm --needed \
@@ -211,7 +215,8 @@ RUN pacman -S --noconfirm --needed \
   xorg \
   xorg-twm \
   xterm \
-  zenity
+  zenity && \
+pacman -Scc --noconfirm
 
 # Install the common themes.
 RUN pacman -S --noconfirm --needed \
@@ -224,7 +229,8 @@ RUN pacman -S --noconfirm --needed \
   kvantum-manjaro \
   kvantum-theme-matchama \
   papirus-maia-icon-theme \
-  xcursor-breeze
+  xcursor-breeze && \
+pacman -Scc --noconfirm
 
 # Install input methods.
 RUN pacman -S --noconfirm --needed \
@@ -234,7 +240,8 @@ RUN pacman -S --noconfirm --needed \
   fcitx5-mozc \
   fcitx5-rime \
   fcitx5-unikey \
-  manjaro-asian-input-support-fcitx5
+  manjaro-asian-input-support-fcitx5 && \
+pacman -Scc --noconfirm
 
 # Install xrdp and xorgxrdp from AUR.
 # - Remove the generated XRDP RSA key because it will be generated at the first boot.
@@ -290,11 +297,11 @@ RUN pacman -S --noconfirm --needed \
   nautilus-empty-file \
   pamac-gnome-integration \
   polkit-gnome \
-  xdg-desktop-portal-gnome
+  xdg-desktop-portal-gnome && \
+pacman -Scc --noconfirm
 
 # Remove the cruft.
 RUN rm -f /etc/locale.conf.pacnew /etc/locale.gen.pacnew
-RUN pacman -Scc --noconfirm
 
 # Enable/disable the services.
 RUN \
