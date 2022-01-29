@@ -248,7 +248,7 @@ pacman -Scc --noconfirm
 # - Unlock gnome-keyring automatically for xrdp login.
 RUN \
   pacman -S --noconfirm --needed \
-    tigervnc libxrandr fuse libfdk-aac ffmpeg nasm xorg-server-devel && \
+    imlib2 tigervnc libxrandr fuse libfdk-aac ffmpeg nasm xorg-server-devel && \
   cd /tmp && \
   sudo -u builder gpg --recv-keys 61ECEABBF2BB40E3A35DF30A9F72CDBC01BF10EB && \
   sudo -u builder git clone https://aur.archlinux.org/xrdp.git && \
