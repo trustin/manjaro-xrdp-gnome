@@ -287,6 +287,7 @@ RUN pacman -S --noconfirm --needed \
   gnome-calculator \
   gnome-control-center \
   gnome-layout-switcher \
+  gnome-shell-extension-no-overview \
   gnome-system-monitor \
   gnome-terminal \
   gnome-tweaks \
