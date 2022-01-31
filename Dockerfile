@@ -129,6 +129,7 @@ RUN pacman -S --noconfirm --needed \
   rclone \
   ripgrep \
   rsync \
+  screen \
   sd \
   squashfs-tools \
   strace \
