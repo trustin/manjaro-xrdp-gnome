@@ -146,6 +146,7 @@ RUN pacman -S --noconfirm --needed \
   unrar \
   unzip \
   vim \
+  wireplumber \
   wget \
   xz \
   zip && \
@@ -337,12 +338,15 @@ RUN \
     usb-gadget.target \
     usbmuxd.service && \
   systemctl mask --global \
+    gvfs-mtp-volume-monitor.service \
+    gvfs-udisks2-volume-monitor.service \
     obex.service \
     pipewire.service \
     pipewire.socket \
     pipewire-media-session.service \
     pipewire-pulse.service \
-    pipewire-pulse.socket
+    pipewire-pulse.socket \
+    wireplumber.service
 
 # Copy the configuration files and scripts.
 COPY files/ /
