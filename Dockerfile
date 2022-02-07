@@ -161,7 +161,7 @@ RUN pacman -U --noconfirm --needed /packages/*/*.tar.* && rm -fr /packages
 # Install ncurses5-compat-libs from AUR.
 RUN \
   cd /tmp && \
-  sudo -u builder gpg --recv-keys C52048C0C0748FEE227D47A2702353E0F7E48EDB && \
+  sudo -u builder gpg --recv-keys CC2AF4472167BE03 && \
   sudo -u builder git clone https://aur.archlinux.org/ncurses5-compat-libs.git && \
   cd ncurses5-compat-libs && \
   sudo -u builder makepkg --noconfirm && \
