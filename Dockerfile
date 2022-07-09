@@ -160,7 +160,9 @@ pacman -Scc --noconfirm
 COPY packages/ /packages/
 
 # Install the pre-built packages.
-RUN pacman -U --noconfirm --needed /packages/*/*.tar.* && rm -fr /packages
+RUN pacman -U --noconfirm --needed /packages/*/*.tar.* && \
+  rm -fr /packages && \
+  pacman -Scc --noconfirm
 
 # Install ncurses5-compat-libs from AUR.
 RUN \
@@ -170,7 +172,8 @@ RUN \
   cd ncurses5-compat-libs && \
   sudo -u builder makepkg --noconfirm && \
   pacman -U --noconfirm --needed /tmp/ncurses5-compat-libs/*.pkg.tar* && \
-  rm -fr /tmp/ncurses5-compat-libs
+  rm -fr /tmp/ncurses5-compat-libs && \
+  pacman -Scc --noconfirm
 
 # Install python38 and python39 from AUR.
 RUN \
@@ -182,7 +185,8 @@ RUN \
   pacman -U --noconfirm --needed /tmp/python38/*.pkg.tar* && \
   cd /tmp/python39 && sudo -u builder makepkg --noconfirm && \
   pacman -U --noconfirm --needed /tmp/python39/*.pkg.tar* && \
-  rm -fr /tmp/python38 /tmp/python39
+  rm -fr /tmp/python38 /tmp/python39 && \
+  pacman -Scc --noconfirm
 
 # Install scmpuff from AUR.
 RUN \
@@ -190,7 +194,8 @@ RUN \
   sudo -u builder git clone https://aur.archlinux.org/scmpuff.git && \
   cd /tmp/scmpuff && sudo -u builder makepkg --noconfirm && \
   pacman -U --noconfirm --needed /tmp/scmpuff/*.pkg.tar* && \
-  rm -fr /tmp/scmpuff
+  rm -fr /tmp/scmpuff && \
+  pacman -Scc --noconfirm
 
 # Install azure-cli-bin from AUR.
 RUN \
@@ -198,7 +203,8 @@ RUN \
   sudo -u builder git clone https://aur.archlinux.org/azure-cli-bin.git && \
   cd /tmp/azure-cli-bin && sudo -u builder makepkg --noconfirm && \
   pacman -U --noconfirm --needed /tmp/azure-cli-bin/*.pkg.tar* && \
-  rm -fr /tmp/azure-cli-bin
+  rm -fr /tmp/azure-cli-bin && \
+  pacman -Scc --noconfirm
 
 # Install gimme-aws-creds from AUR.
 # TODO: Uncomment once python-ctap-keyring-device is fixed.
@@ -304,6 +310,7 @@ RUN \
   cd /tmp/xorgxrdp && sudo -u builder makepkg --noconfirm && \
   pacman -U --noconfirm --needed /tmp/xorgxrdp/*.pkg.tar* && \
   rm -fr /tmp/xrdp /tmp/xorgxrdp /etc/xrdp/rsakeys.ini && \
+  pacman -Scc --noconfirm && \
   systemctl enable xrdp.service
 
 # Install the workaround for:
