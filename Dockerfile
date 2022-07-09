@@ -115,6 +115,7 @@ RUN pacman -Sy --noconfirm --needed \
   pamac-cli \
   perf \
   pigz \
+  pipewire-jack \
   pkgconf \
   procps-ng \
   protobuf \
@@ -191,6 +192,35 @@ RUN \
   pacman -U --noconfirm --needed /tmp/scmpuff/*.pkg.tar* && \
   rm -fr /tmp/scmpuff
 
+# Install azure-cli-bin from AUR.
+RUN \
+  cd /tmp && \
+  sudo -u builder git clone https://aur.archlinux.org/azure-cli-bin.git && \
+  cd /tmp/azure-cli-bin && sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/azure-cli-bin/*.pkg.tar* && \
+  rm -fr /tmp/azure-cli-bin
+
+# Install gimme-aws-creds from AUR.
+# TODO: Uncomment once python-ctap-keyring-device is fixed.
+#RUN pacman -S --noconfirm --needed \
+#  python-beautifulsoup4 python-boto3 python-fido2 python-keyring python-pytest \
+#  python-pytest-black python-pytest-cov python-pytest-flake8 python-setuptools-scm && \
+#  cd /tmp && \
+#  sudo -u nobody git clone https://aur.archlinux.org/python-ctap-keyring-device.git && \
+#  sudo -u nobody git clone https://aur.archlinux.org/python-okta-legacy.git && \
+#  sudo -u nobody git clone https://aur.archlinux.org/gimme-aws-creds.git && \
+#  cd /tmp/python-ctap-keyring-device && \
+#  sudo -u nobody makepkg --noconfirm && \
+#  pacman -U --noconfirm --needed /tmp/python-ctap-keyring-device/*.pkg.tar* && \
+#  cd /tmp/python-okta-legacy && \
+#  sudo -u nobody makepkg --noconfirm && \
+#  pacman -U --noconfirm --needed /tmp/python-okta-legacy/*.pkg.tar* && \
+#  cd /tmp/gimme-aws-creds && \
+#  sudo -u nobody makepkg --noconfirm && \
+#  pacman -U --noconfirm --needed /tmp/gimme-aws-creds/*.pkg.tar* && \
+#  rm -fr /tmp/python-ctap-keyring-device /tmp/python-okta-legacy /tmp/gimme-aws-creds && \
+#  pacman -Scc --noconfirm
+
 # Install the fonts.
 RUN pacman -S --noconfirm --needed \
   noto-fonts \
@@ -199,7 +229,8 @@ RUN pacman -S --noconfirm --needed \
   ttf-fira-code \
   ttf-fira-mono \
   ttf-fira-sans \
-  ttf-hack && \
+  ttf-hack \
+  ttf-liberation && \
 pacman -Scc --noconfirm
 
 # Install the common GUI packages.
@@ -285,6 +316,24 @@ RUN \
   cd /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73 && \
   make install && \
   rm -fr /tmp/pam_close_systemd_system_dbus-f8e6a9ac7bdbae7a78f09845da4e634b26082a73
+
+# Install Visual Studio Code from AUR.
+RUN cd /tmp && \
+  sudo -u nobody git clone https://aur.archlinux.org/visual-studio-code-bin.git && \
+  cd visual-studio-code-bin && \
+  sudo -u nobody makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/visual-studio-code-bin/*.pkg.tar* && \
+  rm -fr /tmp/visual-studio-code-bin && \
+  pacman -Scc --noconfirm
+
+# Install Google Chrome from AUR.
+RUN cd /tmp && \
+  sudo -u nobody git clone https://aur.archlinux.org/google-chrome.git && \
+  cd google-chrome && \
+  sudo -u nobody makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/google-chrome/*.pkg.tar* && \
+  rm -fr /tmp/google-chrome && \
+  pacman -Scc --noconfirm
 
 # Configure Pamac.
 RUN sed -i -e \
