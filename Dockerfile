@@ -54,7 +54,7 @@ RUN sed -i -e 's~^\(\(CheckSpace\|IgnorePkg\|IgnoreGroup\).*\)$~#\1~' /etc/pacma
   pacman -Scc --noconfirm
 
 # Install the common non-GUI packages.
-RUN pacman -S --noconfirm --needed \
+RUN pacman -Sy --noconfirm --needed \
   autoconf \
   automake \
   aws-cli \
@@ -177,7 +177,16 @@ RUN \
   cd /tmp/python38 && sudo -u builder makepkg --noconfirm && \
   pacman -U --noconfirm --needed /tmp/python38/*.pkg.tar* && \
   cd /tmp/python39 && sudo -u builder makepkg --noconfirm && \
-  pacman -U --noconfirm --needed /tmp/python39/*.pkg.tar*
+  pacman -U --noconfirm --needed /tmp/python39/*.pkg.tar* && \
+  rm -fr /tmp/python38 /tmp/python39
+
+# Install scmpuff from AUR.
+RUN \
+  cd /tmp && \
+  sudo -u builder git clone https://aur.archlinux.org/scmpuff.git && \
+  cd /tmp/scmpuff && sudo -u builder makepkg --noconfirm && \
+  pacman -U --noconfirm --needed /tmp/scmpuff/*.pkg.tar* && \
+  rm -fr /tmp/scmpuff
 
 # Install the fonts.
 RUN pacman -S --noconfirm --needed \
@@ -203,7 +212,8 @@ RUN pacman -S --noconfirm --needed \
   manjaro-application-utility \
   pamac-gtk \
   poppler-data \
-  qgnomeplatform \
+  qgnomeplatform-qt5 \
+  qgnomeplatform-qt6 \
   seahorse \
   wireshark-qt \
   wmctrl \
@@ -229,7 +239,7 @@ RUN pacman -S --noconfirm --needed \
   illyria-wallpaper \
   matcha-gtk-theme \
   kvantum-manjaro \
-  kvantum-theme-matchama \
+  kvantum-theme-matcha \
   papirus-maia-icon-theme \
   xcursor-breeze && \
 pacman -Scc --noconfirm
@@ -250,7 +260,7 @@ pacman -Scc --noconfirm
 # - Unlock gnome-keyring automatically for xrdp login.
 RUN \
   pacman -S --noconfirm --needed \
-    imlib2 tigervnc libxrandr fuse libfdk-aac ffmpeg nasm xorg-server-devel && \
+    check imlib2 tigervnc libxrandr fuse libfdk-aac ffmpeg nasm xorg-server-devel && \
   cd /tmp && \
   sudo -u builder gpg --recv-keys 61ECEABBF2BB40E3A35DF30A9F72CDBC01BF10EB && \
   sudo -u builder git clone https://aur.archlinux.org/xrdp.git && \
@@ -281,6 +291,7 @@ RUN sed -i -e \
 # Install the desktop environment packages.
 RUN pacman -S --noconfirm --needed \
   baobab \
+  chrome-gnome-shell \
   disable-tracker \
   eog \
   file-roller \
@@ -289,12 +300,15 @@ RUN pacman -S --noconfirm --needed \
   gnome-calculator \
   gnome-control-center \
   gnome-layout-switcher \
+  gnome-shell-extension-appindicator \
+  gnome-shell-extension-dash-to-dock \
   gnome-shell-extension-no-overview \
   gnome-system-monitor \
   gnome-terminal \
   gnome-tweaks \
   lighter-gnome \
-  manjaro-gnome-assets \
+  manjaro-gnome-extension-settings \
+  manjaro-gnome-settings \
   manjaro-hello \
   nautilus-admin \
   nautilus-empty-file \
@@ -313,6 +327,7 @@ RUN \
     sshd.service && \
   systemctl mask \
     bluetooth.service \
+    dev-sda1.device \
     dm-event.service \
     dm-event.socket \
     geoclue.service \
