@@ -232,11 +232,11 @@ pacman -Scc --noconfirm
 
 # Install the common themes.
 RUN pacman -S --noconfirm --needed \
+  gnome-backgrounds \
   gnome-themes-extra \
   gnome-wallpapers \
   gtk-engines \
   gtk-engine-murrine \
-  illyria-wallpaper \
   matcha-gtk-theme \
   kvantum-manjaro \
   kvantum-theme-matcha \
