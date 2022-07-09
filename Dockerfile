@@ -69,8 +69,10 @@ RUN pacman -Sy --noconfirm --needed \
   clang \
   cmake \
   dash \
+  difftastic \
   dmidecode \
   docker \
+  dog \
   downgrade \
   dust \
   exa \
@@ -82,6 +84,7 @@ RUN pacman -Sy --noconfirm --needed \
   gdb \
   git \
   glances \
+  hexyl \
   htop \
   httpie \
   iftop \
@@ -114,7 +117,6 @@ RUN pacman -Sy --noconfirm --needed \
   pigz \
   pkgconf \
   procps-ng \
-  procs \
   protobuf \
   psmisc \
   python \
@@ -148,6 +150,7 @@ RUN pacman -Sy --noconfirm --needed \
   vim \
   wireplumber \
   wget \
+  xh \
   xz \
   zip && \
 pacman -Scc --noconfirm
