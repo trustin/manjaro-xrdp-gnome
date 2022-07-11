@@ -189,13 +189,14 @@ RUN \
   pacman -Scc --noconfirm
 
 # Install scmpuff from AUR.
-RUN \
-  cd /tmp && \
-  sudo -u builder git clone https://aur.archlinux.org/scmpuff.git && \
-  cd /tmp/scmpuff && sudo -u builder makepkg --noconfirm && \
-  pacman -U --noconfirm --needed /tmp/scmpuff/*.pkg.tar* && \
-  rm -fr /tmp/scmpuff && \
-  pacman -Scc --noconfirm
+# TODO: Uncomment once scmpuff in AUR is updated.
+#RUN \
+#  cd /tmp && \
+#  sudo -u builder git clone https://aur.archlinux.org/scmpuff.git && \
+#  cd /tmp/scmpuff && sudo -u builder makepkg --noconfirm && \
+#  pacman -U --noconfirm --needed /tmp/scmpuff/*.pkg.tar* && \
+#  rm -fr /tmp/scmpuff && \
+#  pacman -Scc --noconfirm
 
 # Install azure-cli-bin from AUR.
 RUN \
